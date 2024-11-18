@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Futuristic Calculator</title>
+<style>
+body {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #222, #333);
+  margin: 0;
+  transition: background-color 0.3s ease;
+  overflow-x: hidden; 
+}
+
+.calculator {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 320px;
+  max-width: 90vw; 
+  border: 2px solid rgba(255,255,255,0.2);
+  transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  animation: glow 1s ease-in-out infinite alternate; /* Added animation */
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  100% { box-shadow: 0 0 20px rgba(255,255,255,0.8); }
+}
+
+.dark-theme .calculator {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(0,0,0,0.4);
+  animation: darkGlow 1s ease-in-out infinite alternate; /* Added animation */
+}
+
+@keyframes darkGlow {
+  0% { box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+  100% { box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+}
+
+
+input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  font-size: 24px;
+  text-align: right;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: font-size 0.3s ease;
+}
+
+.dark-theme input[type="text"] {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #eee;
+}
+
+button {
+  width: 23%;
+  padding: 12px;
+  margin: 5px 1%;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.2s ease;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1; 
+  transition: font-size 0.3s ease;
+  animation: buttonGlow 0.5s ease-in-out infinite alternate; /* Added animation */
+}
+
+@keyframes buttonGlow {
+  0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+  100% { box-shadow: 0 0 10px rgba(255,255,255,0.4); }
+}
+
+.dark-theme button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #eee;
+  animation: darkButtonGlow 0.5s ease-in-out infinite alternate; /* Added animation */
+}
+
+@keyframes darkButtonGlow {
+  0% { box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+  100% { box-shadow: 0 0 10px rgba(0,0,0,0.4); }
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+button:active {
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(2px); /* Added subtle press effect */
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.row button {
+  margin: 5px; 
+}
+
+#theme-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px; 
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: font-size 0.3s ease;
+}
+
+.dark-theme #theme-toggle {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #eee;
+}
+
+@media (max-width: 400px) {
+  .calculator {
+    width: 280px;
+  }
+  input[type="text"] {
+    font-size: 20px;
+  }
+  button {
+    font-size: 16px;
+    padding: 10px;
+  }
+  #theme-toggle {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+</style>
+</head>
+<body>
+<button id="theme-toggle">Toggle Theme</button>
+<div class="calculator">
+  <input type="text" id="display" readonly>
+  <div class="row">
+    <button onclick="appendNumber('7')">7</button>
+    <button onclick="appendNumber('8')">8</button>
+    <button onclick="appendNumber('9')">9</button>
+    <button onclick="appendOperator('/')">/</button>
+  </div>
+  <div class="row">
+    <button onclick="appendNumber('4')">4</button>
+    <button onclick="appendNumber('5')">5</button>
+    <button onclick="appendNumber('6')">6</button>
+    <button onclick="appendOperator('*')">*</button>
+  </div>
+  <div class="row">
+    <button onclick="appendNumber('1')">1</button>
+    <button onclick="appendNumber('2')">2</button>
+    <button onclick="appendNumber('3')">3</button>
+    <button onclick="appendOperator('-')">-</button>
+  </div>
+  <div class="row">
+    <button onclick="appendNumber('0')">0</button>
+    <button onclick="appendNumber('.')">.</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="appendOperator('+')">+</button>
+  </div>
+  <div class="row">
+    <button onclick="backspace()">Backspace</button>
+    <button onclick="clearDisplay()">Clear</button>
+  </div>
+</div>
+
+<script>
+function appendNumber(num) {
+  document.getElementById('display').value += num;
+}
+
+function appendOperator(op) {
+  document.getElementById('display').value += op;
+}
+
+function calculate() {
+  try {
+    let result = eval(document.getElementById('display').value);
+    document.getElementById('display').value = result;
+  } catch (error) {
+    document.getElementById('display').value = "Error";
+  }
+}
+
+function backspace() {
+  document.getElementById('display').value = document.getElementById('display').value.slice(0, -1);
+}
+
+function clearDisplay() {
+  document.getElementById('display').value = '';
+}
+
+document.addEventListener('keydown', function(event) {
+  if (event.key >= 0 && event.key <= 9) {
+    appendNumber(event.key);
+  } else if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') {
+    appendOperator(event.key);
+  } else if (event.key === '.') {
+    appendNumber('.');
+  } else if (event.key === 'Enter') {
+    calculate();
+  } else if (event.key === 'Backspace') {
+    backspace();
+  }
+});
+
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+let isDarkTheme = false;
+
+themeToggle.addEventListener('click', () => {
+  isDarkTheme = !isDarkTheme;
+  body.classList.toggle('dark-theme', isDarkTheme);
+});
+</script>
+
+</body>
+</html>
